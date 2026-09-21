@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Home Page</title></head>
+<body>
+    <h1>Personal Blog</h1>
+    <a href="/tasks/new">+ Add New Post</a>
+
+    <ul>
+        {{range .Posts}}
+            <li><strong>{{.Tasks.Title}}</strong></li>
+        {{end}}
+    </ul>
+</body>
+</html>
