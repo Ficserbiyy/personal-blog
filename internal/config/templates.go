@@ -14,7 +14,7 @@ type Post struct {
 
 var (
 	templates = template.Must(template.ParseFiles(
-		"templates/index.html",
+		"index.html",
 		"templates/new.html",
 	))
 )
