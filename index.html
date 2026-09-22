@@ -7,7 +7,7 @@
 
     <ul>
         {{range .}}
-            <li><strong>{{ .Title }}</strong>    {{.CreatedAt}}</li>
+            <li>{{ .ID }} <strong>{{ .Title }}</strong>    {{.CreatedAt}}</li>
         {{else}}
             <li>No items available</li>
         {{end}}

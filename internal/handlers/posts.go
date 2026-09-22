@@ -2,8 +2,10 @@ package handlers
 
 import "net/http"
 
-func Create() http.HandlerFunc {
+func (s *BlogService) Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/tasks", http.StatusSeeOther)
+		if r.Method == http.MethodPost {
+			http.Redirect(w, r, "/tasks", http.StatusSeeOther)
+		}
 	}
 }
