@@ -3,14 +3,9 @@ package config
 import (
 	"net/http"
 	"text/template"
-)
 
-type Post struct {
-	ID        uint
-	Title     string
-	CreatedAt string
-	Body      []byte
-}
+	"github.com/Ficserbiyy/personal-blog/internal/models"
+)
 
 var (
 	templates = template.Must(template.ParseFiles(
@@ -19,7 +14,7 @@ var (
 	))
 )
 
-func RenderTemplate(w http.ResponseWriter, tmpl string, p *Post) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, p *models.PostPage) {
 	err := templates.ExecuteTemplate(w, tmpl+".html", p)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

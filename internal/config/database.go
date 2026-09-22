@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/Ficserbiyy/personal-blog/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -43,7 +44,7 @@ func ConnectToDatabase() (*gorm.DB, error) {
 	}
 
 	err = db.AutoMigrate(
-		&Post{},
+		&models.Post{},
 	)
 	if err != nil {
 		return nil, fmt.Errorf(
