@@ -18,8 +18,8 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", handlers.GetIndex)
-	mux.HandleFunc("GET /home", repo.ListAll())
-	mux.HandleFunc("POST /home", repo.Create())
+	mux.HandleFunc("/new", handlers.New)
+	mux.HandleFunc("/home", repo.HomePage())
 
 	log.Println("Server listening on http://127.0.0.1:8080")
 	if err := http.ListenAndServe("0.0.0.0:8080", mux); err != nil {

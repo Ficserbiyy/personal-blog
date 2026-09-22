@@ -11,11 +11,27 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 	config.RenderTemplate(w, "index", nil)
 }
 
-// Create method creates a new Post
-// in the database and redirects to /home.
-func (s *BlogService) Create() http.HandlerFunc {
+func New(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	config.RenderTemplate(w, "new", nil)
+}
+
+func (s *BlogService) HomePage() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		// Create a new Post in the database
+		// and redirect to /home.
 		if r.Method == http.MethodPost {
+
+			// Parse form data
+			err := r.ParseForm()
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+
 			post := models.Post{
 				Title: r.FormValue("title"),
 				Body:  r.FormValue("body"),
@@ -28,26 +44,24 @@ func (s *BlogService) Create() http.HandlerFunc {
 
 			http.Redirect(w, r, "/home", http.StatusSeeOther)
 		}
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-	}
-}
 
-// ListAll method retrieves all posts from the database.
-func (s *BlogService) ListAll() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		var rows []models.Post
+		// Retrieve all posts from the database
+		// and render home.html.
+		if r.Method == http.MethodGet {
 
-		if err := s.DB.Find(&rows).Error; err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			var rows []models.Post
+
+			if err := s.DB.Find(&rows).Error; err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			var articles []models.PostPage
+			for i := range rows {
+				articles = append(articles, rows[i].ResponseModel())
+			}
+
+			config.RenderTemplate(w, "home", articles)
 		}
-
-		var articles []models.PostPage
-		for i := range rows {
-			articles = append(articles, rows[i].ResponseModel())
-		}
-
-		config.RenderTemplate(w, "home", articles)
-
 	}
 }
