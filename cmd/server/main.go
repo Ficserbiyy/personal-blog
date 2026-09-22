@@ -17,7 +17,9 @@ func main() {
 	repo := handlers.NewBlogService(db)
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("POST /tasks", repo.Create())
+	mux.HandleFunc("/", handlers.GetIndex)
+	mux.HandleFunc("GET /home", repo.ListAll())
+	mux.HandleFunc("POST /home", repo.Create())
 
 	log.Println("Server listening on http://127.0.0.1:8080")
 	if err := http.ListenAndServe("0.0.0.0:8080", mux); err != nil {

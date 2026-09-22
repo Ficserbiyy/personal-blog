@@ -3,6 +3,7 @@ package models
 import "time"
 
 type (
+	// Post is an article database model.
 	Post struct {
 		ID        uint   `gorm:"primaryKey"`
 		Title     string `gorm:"not null"`
@@ -19,3 +20,13 @@ type (
 		Body      []byte // Convenient for html/template or raw rendering
 	}
 )
+
+// Constructs PostPage from Post model.
+func (p Post) ResponseModel() PostPage {
+	return PostPage{
+		ID:        p.ID,
+		Title:     p.Title,
+		CreatedAt: p.CreatedAt.Format("January 2, 2006"),
+		Body:      []byte(p.Body),
+	}
+}
