@@ -1,10 +1,13 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/Ficserbiyy/personal-blog/internal/config"
 	"github.com/Ficserbiyy/personal-blog/internal/models"
+	"gorm.io/gorm"
 )
 
 func GetIndex(w http.ResponseWriter, r *http.Request) {
@@ -63,5 +66,33 @@ func (s *BlogService) HomePage() http.HandlerFunc {
 
 			config.RenderTemplate(w, "home", articles)
 		}
+	}
+}
+
+func (s *BlogService) ArticlePage() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id, err := strconv.Atoi(r.PathValue("id"))
+
+		if err != nil || id <= 0 {
+			http.Error(w, "article ID must be a positive integer", http.StatusBadRequest)
+			return
+		}
+
+		post, err := getPostByID(uint(id), s.DB, r.Context())
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				http.NotFound(w, r)
+				return
+			}
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Handle GET request
+		if r.Method == http.MethodGet {
+			config.RenderTemplate(w, "article", post.ResponseModel())
+			return
+		}
+
 	}
 }

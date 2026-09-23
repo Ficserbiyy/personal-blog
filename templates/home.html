@@ -3,15 +3,18 @@
 <head><title>Home Page</title></head>
 <body>
     <h1>Personal Blog</h1>
-    <a href="/new">+ Add New Post</a>
+    <a href="/new">+ Add New Article</a>
 
-    <ul>
-        {{range .}}
-            <li>{{ .ID }} <strong>{{ .Title }}</strong>    {{.CreatedAt}}</li>
-        {{else}}
-            <li>No items available</li>
-        {{end}}
-    </ul>
+    <details>
+        <summary>Article list</summary>
+            <ul>
+                {{range .}}
+                    <li>{{ .ID }} | <strong>{{ .Title }}</strong>    {{.CreatedAt}}</li>
+                {{else}}
+                    <li>No items available</li>
+                {{end}}
+            </ul>
+    </details>
 
 </body>
 </html>
