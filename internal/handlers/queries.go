@@ -23,3 +23,10 @@ func getPostByID(
 
 	return post, err
 }
+
+// This function removes Post
+// from the database.
+func deletePost(post models.Post, db *gorm.DB, ctx context.Context) error {
+	return db.WithContext(ctx).
+		Delete(&post).Error
+}

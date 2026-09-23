@@ -8,6 +8,13 @@
         <address>{{.CreatedAt}}</address>
     </div>
 
+    <br>
+    <form action="/articles/{{.ID}}" method="POST">
+        <!-- Browsers only allow GET and POST in native HTML forms -->
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit">Delete Article</button>
+    </form>
+
     <hr>
 
     <div>
