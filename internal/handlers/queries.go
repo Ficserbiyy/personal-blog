@@ -24,9 +24,41 @@ func getPostByID(
 	return post, err
 }
 
+// This function creates Post
+// in the database.
+func CreatePost(
+	post models.Post,
+	db *gorm.DB,
+	ctx context.Context,
+) error {
+	return db.WithContext(ctx).
+		Create(&post).Error
+}
+
 // This function removes Post
 // from the database.
-func deletePost(post models.Post, db *gorm.DB, ctx context.Context) error {
+func deletePost(
+	post models.Post,
+	db *gorm.DB,
+	ctx context.Context,
+) error {
 	return db.WithContext(ctx).
 		Delete(&post).Error
+}
+
+// This function updates an existing
+// Post in the database.
+func updatePost(
+	post models.Post,
+	updateData models.Post,
+	db *gorm.DB,
+	ctx context.Context,
+) error {
+	if updateData.Title == "" && updateData.Body == "" {
+		return nil
+	}
+
+	return db.WithContext(ctx).
+		Model(&post).
+		Updates(updateData).Error
 }

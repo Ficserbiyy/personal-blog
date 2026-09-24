@@ -12,6 +12,7 @@ var (
 		"templates/home.html",
 		"templates/new.html",
 		"templates/article.html",
+		"templates/edit.html",
 	))
 )
 

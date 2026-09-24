@@ -17,8 +17,9 @@ func main() {
 	repo := handlers.NewBlogService(db)
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/", handlers.GetIndex)
-	mux.HandleFunc("/new", handlers.New)
+	mux.HandleFunc("/", handlers.IndexPage)
+	mux.HandleFunc("/new", handlers.NewPage)
+	mux.HandleFunc("/edit/{id}", handlers.EditPage)
 	mux.HandleFunc("/home", repo.HomePage())
 	mux.HandleFunc("/articles/{id}", repo.ArticlePage())
 

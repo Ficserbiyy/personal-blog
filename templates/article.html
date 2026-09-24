@@ -9,6 +9,11 @@
     </div>
 
     <br>
+    <form action="/edit/{{.ID}}" method="POST">
+        <button type="submit">Update Article</button>
+    </form>
+    <br>
+
     <form action="/articles/{{.ID}}" method="POST">
         <!-- Browsers only allow GET and POST in native HTML forms -->
         <input type="hidden" name="_method" value="DELETE">
