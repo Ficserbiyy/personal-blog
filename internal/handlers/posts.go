@@ -108,6 +108,13 @@ func (s *BlogService) ArticlePage() http.HandlerFunc {
 				http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 				return
 			}
+
+			if hiddenMethod == http.MethodPatch {
+				if r.FormValue("body") == "" && r.FormValue("title") == "" {
+					http.Redirect(w, r, "/articles/"+idStr, http.StatusSeeOther)
+					return
+				}
+			}
 		}
 
 		ctx := r.Context()

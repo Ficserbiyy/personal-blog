@@ -54,10 +54,6 @@ func updatePost(
 	db *gorm.DB,
 	ctx context.Context,
 ) error {
-	if updateData.Title == "" && updateData.Body == "" {
-		return nil
-	}
-
 	return db.WithContext(ctx).
 		Model(&post).
 		Updates(updateData).Error
